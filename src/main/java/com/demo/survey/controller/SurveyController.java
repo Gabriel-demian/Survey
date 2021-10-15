@@ -38,8 +38,6 @@ public class SurveyController {
     @PostMapping("/newSurvey")
     public String getAllSurveys(SurveyDto newSurvey){
 
-        newSurvey.;
-
         return "The survey was created";
     }
 
