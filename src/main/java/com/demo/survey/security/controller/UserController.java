@@ -1,8 +1,6 @@
 package com.demo.survey.security.controller;
 
 import com.demo.survey.security.dto.User;
-import io.jsonwebtoken.Jwt;
-import org.glassfish.jaxb.core.v2.TODO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.PostMapping;
