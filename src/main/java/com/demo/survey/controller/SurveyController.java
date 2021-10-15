@@ -2,22 +2,29 @@ package com.demo.survey.controller;
 
 import com.demo.survey.dto.SurveyDto;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SurveyController {
 
-    @GetMapping("/survey/all")
+    @GetMapping("/surveyList")
     public String getAllSurveys(){
 
         return "All the surveys";
     }
 
-    @GetMapping("/survey/{id}")
-    public String getSurvey(){
+    @GetMapping("/survey/{surveyId}")
+    public String getSurvey(@PathVariable String surveyId){
 
-        return "One survey";
+        return "One survey id " + surveyId;
+    }
+
+    @PostMapping ("/survey/{surveyId}/{answerId}")
+    public String sendAnswer(@PathVariable("surveyId") String surveyId, @PathVariable("answerId") String answerId){
+
+        return "You sent the answer "+surveyId+" for the survey " + answerId;
     }
 
     /**
