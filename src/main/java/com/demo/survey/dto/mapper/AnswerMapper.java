@@ -45,7 +45,7 @@ public class AnswerMapper implements Mapper<Answer, AnswerDto>{
 
     @Override
     public List<AnswerDto> getDto(Collection<Answer> entities, Integer escalones) {
-        
+
         List<AnswerDto> res = new ArrayList<>();
 
         for(Answer answer : entities){
