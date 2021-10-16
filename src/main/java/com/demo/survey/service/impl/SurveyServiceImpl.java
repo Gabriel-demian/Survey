@@ -1,5 +1,6 @@
 package com.demo.survey.service.impl;
 
+import com.demo.survey.dto.SurveyDto;
 import com.demo.survey.repository.AnswerRepository;
 import com.demo.survey.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,7 @@ public class SurveyServiceImpl {
     }
 
 
+    public void createNewSurvey(SurveyDto newSurvey) {
 
+    }
 }

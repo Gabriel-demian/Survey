@@ -1,19 +1,25 @@
 package com.demo.survey.controller;
 
 import com.demo.survey.dto.SurveyDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.demo.survey.service.impl.SurveyServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class SurveyController {
 
-    @PostMapping("/newSurvey")
-    public String getAllSurveys(SurveyDto newSurvey){
+    @Autowired
+    private SurveyServiceImpl surveyServiceImpl;
 
+    @PostMapping("/newSurvey")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String newSurvey(@RequestBody SurveyDto newSurvey){
+
+        surveyServiceImpl.createNewSurvey(newSurvey);
         return "The survey was created";
     }
 
@@ -36,7 +42,7 @@ public class SurveyController {
     }
 
     @GetMapping("/survey/{surveyId}")
-    public SurveyDto getSurvey(@PathVariable String surveyId){
+    public SurveyDto getSurveyById(@PathVariable String surveyId){
 
         return null;
     }

@@ -28,7 +28,6 @@ public class Survey {
 
     private String createdBy;
     private String survey;
-    private String idCorrectAnswer;
     private Timestamp expirationDate;
     private String label;
 

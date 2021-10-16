@@ -15,8 +15,9 @@ public class SurveyDto {
 
     private String surveyId;
     private List<AnswerDto> answerId;
+    private String createdBy;
     private String survey;
-    private String idCorrectAnswer;
     private Timestamp expirationDate;
+    private String label;
 
 }
