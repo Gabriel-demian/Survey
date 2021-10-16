@@ -26,4 +26,7 @@ public class Answer {
     @NotNull
     private String answer;
 
+    @NotNull
+    private Integer counter;
+
 }

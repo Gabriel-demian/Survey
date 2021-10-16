@@ -26,8 +26,11 @@ public class Survey {
     @OneToMany
     private List<Answer> answerId;
 
+    private String createdBy;
     private String survey;
     private String idCorrectAnswer;
     private Timestamp expirationDate;
+    private String label;
+
 
 }

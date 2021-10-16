@@ -6,25 +6,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class SurveyController {
 
-    @GetMapping("/surveyList")
-    public String getAllSurveys(){
+    @PostMapping("/newSurvey")
+    public String getAllSurveys(SurveyDto newSurvey){
 
-        return "All the surveys";
-    }
-
-    @GetMapping("/survey/{surveyId}")
-    public String getSurvey(@PathVariable String surveyId){
-
-        return "One survey id " + surveyId;
+        return "The survey was created";
     }
 
     @PostMapping ("/survey/{surveyId}/{answerId}")
     public String sendAnswer(@PathVariable("surveyId") String surveyId, @PathVariable("answerId") String answerId){
 
         return "You sent the answer "+surveyId+" for the survey " + answerId;
+    }
+
+    @GetMapping("/surveyList")
+    public List<SurveyDto> getAllSurveys(){
+
+        return null;
+    }
+
+    @GetMapping("/survey/user/{userName}")
+    public String getSurveyByUser(@PathVariable String userName){
+
+        return "One survey by " + userName;
+    }
+
+    @GetMapping("/survey/{surveyId}")
+    public SurveyDto getSurvey(@PathVariable String surveyId){
+
+        return null;
+    }
+
+    @GetMapping("/surveyList/label/{label}")
+    public SurveyDto getSurveyByLabel(@PathVariable String surveyId){
+
+        return null;
     }
 
     /**
@@ -42,11 +62,7 @@ public class SurveyController {
         return "One random survey";
     }
 
-    @PostMapping("/newSurvey")
-    public String getAllSurveys(SurveyDto newSurvey){
 
-        return "The survey was created";
-    }
 
 
 }

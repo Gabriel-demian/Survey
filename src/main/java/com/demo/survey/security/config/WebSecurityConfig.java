@@ -20,8 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .antMatchers(HttpMethod.POST,"/survey/**/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/randomSurvey").permitAll()
+                .antMatchers(HttpMethod.GET,"/surveyList").permitAll()
+                .antMatchers(HttpMethod.GET,"/survey/user/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/survey/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/surveyList/label/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/randomSurvey").permitAll()
                 .anyRequest().authenticated();
 
     }
