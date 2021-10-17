@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -14,9 +15,9 @@ import java.util.List;
 public class SurveyDto {
 
     private String surveyId;
-    private List<AnswerDto> answerId;
     private String createdBy;
     private String survey;
+    private List<AnswerDto> answers;
     private Timestamp expirationDate;
     private String label;
 

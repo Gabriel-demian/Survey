@@ -1,31 +1,61 @@
 package com.demo.survey.security.controller;
 
-import com.demo.survey.security.dto.User;
+import com.demo.survey.entity.User;
+import com.demo.survey.repository.UserRepository;
+import com.demo.survey.security.dto.UserDto;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@Log4j2
 public class UserController {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("login")
+    public String login(@RequestBody UserDto userDto){
+
+        Optional<User> user = userRepository.findOneByUsername(userDto.getUser());
+
+
+        if(!user.isPresent() || !passwordEncoder.matches(userDto.getPwd(), user.get().getPassword())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        String token = getJWTToken(userDto.getUser());
+
+        return token;
+    }
+
     @PostMapping("user")
-    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd){
+    @ResponseStatus(HttpStatus.CREATED)
+    public void newUser(@RequestBody UserDto userDto){
 
-        String token = getJWTToken(username);
-        User user = new User();
-        user.setUser(username);
-        user.setToken(token);
+        User newUser = new User();
 
-        return user;
+        newUser.setUsername(userDto.getUser());
+        newUser.setPassword(passwordEncoder.encode(userDto.getPwd()));
+
+        userRepository.save(newUser);
+
     }
 
     /**
@@ -33,7 +63,6 @@ public class UserController {
      * @param username
      * @return Bearer Token
      */
-    //TODO verify username and password
     private String getJWTToken(String username){
 
         String secretKey = "mySecretKey";

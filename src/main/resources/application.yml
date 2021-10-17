@@ -3,3 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: admin
+    driver-class-name: org.postgresql.Driver
+
+spring.jpa:
+  database: POSTGRESQL
+  hibernate.ddl-auto: update
+  show-sql: true

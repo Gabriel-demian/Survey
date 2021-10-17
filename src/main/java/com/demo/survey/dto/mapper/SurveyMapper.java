@@ -47,7 +47,7 @@ public class SurveyMapper implements Mapper<Survey, SurveyDto>{
         dto.setLabel(entity.getLabel());
 
         if(escalones > 0){
-            dto.setAnswerId(answerMapper.getDto(entity.getAnswerId(), escalones-1));
+            dto.setAnswers(answerMapper.getDto(entity.getAnswers(), escalones-1));
         }
 
         return dto;

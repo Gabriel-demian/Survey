@@ -1,9 +1,12 @@
 package com.demo.survey.security;
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
  * Si existe, lo desencripta y valida (validateToken(...)).
  * Si está todo OK, añade la configuración necesaria al contexto de Spring para autorizar la petición (setUpSpringAuthentication(...)).
  */
+@Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private final String HEADER = "Authorization";

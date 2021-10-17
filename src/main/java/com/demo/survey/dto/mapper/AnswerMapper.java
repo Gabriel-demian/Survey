@@ -18,7 +18,6 @@ public class AnswerMapper implements Mapper<Answer, AnswerDto>{
     public Answer fillEntity(Answer entity, AnswerDto dto) {
 
         entity.setAnswerId(dto.getAnswerId());
-        entity.setSurveyId(dto.getSurveyId());
         entity.setAnswer(dto.getAnswer());
         entity.setCounter(dto.getCounter());
 
@@ -36,7 +35,6 @@ public class AnswerMapper implements Mapper<Answer, AnswerDto>{
         AnswerDto dto = new AnswerDto();
 
         dto.setAnswerId(entity.getAnswerId());
-        dto.setSurveyId(entity.getSurveyId());
         dto.setAnswer(entity.getAnswer());
         dto.setCounter(entity.getCounter());
 

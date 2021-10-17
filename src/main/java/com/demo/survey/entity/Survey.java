@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -23,8 +20,8 @@ public class Survey {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String surveyId;
 
-    @OneToMany
-    private List<Answer> answerId;
+    @OneToMany(cascade = CascadeType.MERGE)
+    private List<Answer> answers;
 
     private String createdBy;
     private String survey;
