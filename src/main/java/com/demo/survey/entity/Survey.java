@@ -20,7 +20,7 @@ public class Survey {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String surveyId;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     private String createdBy;
