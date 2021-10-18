@@ -64,15 +64,6 @@ public class SurveyController {
         return list;
     }
 
-    /**
-     * Se puede tomar la lista de encuestas, llevarlas a una lista,
-     * ver el tamaño de la lista y elegir un número random entre 0 y el máximo de la lista para retornar.
-     * Random r = new Random();
-     * int low = 10;
-     * int high = lista.maxLength;
-     * int result = r.nextInt(high-low) + low;
-     * @return String
-     */
     @GetMapping("/randomSurvey")
     public SurveyDto getRandomSurvey(){
 
@@ -80,8 +71,5 @@ public class SurveyController {
 
         return survey;
     }
-
-
-
 
 }

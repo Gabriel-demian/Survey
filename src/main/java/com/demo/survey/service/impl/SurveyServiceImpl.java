@@ -10,12 +10,15 @@ import com.demo.survey.repository.AnswerRepository;
 import com.demo.survey.repository.SurveyRepository;
 import com.demo.survey.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class SurveyServiceImpl implements SurveyService {
@@ -75,9 +78,13 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public SurveyDto getSurveyById(String surveyId) {
 
-        SurveyDto survey =  surveyTest();
+        SurveyMapper surveyMapper = new SurveyMapper();
 
-        return survey;
+        Survey sur = surveyRepo.findById(surveyId).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        });
+
+        return surveyMapper.getDto(sur);
     }
 
     @Override
@@ -85,11 +92,34 @@ public class SurveyServiceImpl implements SurveyService {
         return null;
     }
 
+
     @Override
     public SurveyDto getRandomSurvey() {
-        return null;
+        SurveyMapper surveyMapper = new SurveyMapper();
+        Random r = new Random();
+
+        List<SurveyDto> randomList = surveyMapper.getDto(surveyRepo.findAll());
+
+        if(randomList.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+        int index = r.nextInt(randomList.size());
+
+        return randomList.get(index);
     }
 
+
+
+
+    public List<SurveyDto> surveyDtoList(){
+        List<SurveyDto> list = new ArrayList<>();
+        list.add(surveyTest());
+        list.add(surveyTest());
+        list.add(surveyTest());
+        list.add(surveyTest());
+
+        return list;
+    }
 
     public SurveyDto surveyTest(){
         SurveyDto test = new SurveyDto();
