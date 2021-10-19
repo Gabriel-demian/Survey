@@ -1,11 +1,11 @@
 package com.demo.survey.security;
 
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * Comprueba la existencia del token (existeJWTToken(...)).
  * Si existe, lo desencripta y valida (validateToken(...)).
- * Si está todo OK, añade la configuración necesaria al contexto de Spring para autorizar la petición (setUpSpringAuthentication(...)).
+ * Si está toodo ok, añade la configuración necesaria al contexto de Spring para autorizar la petición (setUpSpringAuthentication(...)).
  */
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
@@ -30,13 +31,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private final String HEADER = "Authorization";
     private final String PREFIX = "Bearer ";
     private final String SECRET = "mySecretKey";
+    private final String AUTH = "authorities";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
             if (existJWTToken(request, response)) {
                 Claims claims = validateToken(request);
-                if (claims.get("authorities") != null) {
+                if (claims.get(AUTH) != null) {
                     setUpSpringAuthentication(claims);
                 } else {
                     SecurityContextHolder.clearContext();
@@ -64,7 +66,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
      */
     private void setUpSpringAuthentication(Claims claims){
         @SuppressWarnings("unchecked")
-        List<String> authorities = (List) claims.get("authorities");
+        List<String> authorities = (List) claims.get(AUTH);
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
                 authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
@@ -76,6 +78,31 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
             return false;
         return true;
+    }
+
+    /**
+     * getJWTToken : Build the token.
+     * @param username
+     * @return Bearer Token
+     */
+    public static String getJWTToken(String username){
+
+        String secretKey = "mySecretKey";
+
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        String token = Jwts.builder()
+                .setId("surveyJWT")
+                .setSubject(username)
+                .claim("authorities",
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis() + 600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return "Bearer " + token;
     }
 
 }

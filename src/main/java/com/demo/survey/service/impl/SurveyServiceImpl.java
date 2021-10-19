@@ -1,6 +1,5 @@
 package com.demo.survey.service.impl;
 
-import com.demo.survey.dto.AnswerDto;
 import com.demo.survey.dto.SurveyDto;
 import com.demo.survey.dto.mapper.AnswerMapper;
 import com.demo.survey.dto.mapper.SurveyMapper;
@@ -9,18 +8,21 @@ import com.demo.survey.entity.Survey;
 import com.demo.survey.repository.AnswerRepository;
 import com.demo.survey.repository.SurveyRepository;
 import com.demo.survey.service.SurveyService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 @Service
+@Log4j2
 public class SurveyServiceImpl implements SurveyService {
 
     private AnswerRepository answerRepo;
@@ -37,6 +39,9 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
 
+    /**
+     * Una encuesta dura 7 días.
+     */
     @Override
     public SurveyDto createNewSurvey(SurveyDto newSurvey) {
 
@@ -46,10 +51,14 @@ public class SurveyServiceImpl implements SurveyService {
 
         Survey survey = new Survey();
 
+        newSurvey.setExpirationDate(Timestamp.valueOf(LocalDateTime.now().plusDays(7)));
+
         survey = surveyMapper.fillEntity(survey, newSurvey);
 
-        newSurvey.getAnswers().forEach( (answerDto) -> {
+        newSurvey.getAnswers().forEach( answerDto -> {
                     Answer answer = new Answer();
+                    answerDto.setAnswerId(newSurvey.getSurveyId());
+                    answerDto.setCounter(0);
                     answer = answerMapper.fillEntity(answer, answerDto);
                     answerList.add(answer);
                 }
@@ -64,6 +73,19 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public void sendAnswer(String surveyId, String answerId) {
 
+        Survey sur = surveyRepo.findById(surveyId).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        });
+
+        List<Answer> list = sur.getAnswers();
+
+        list.forEach(answer -> {
+            if (answer.getAnswerId().equals(answerId)){
+                answer.setCounter(answer.getCounter()+1);
+            }
+        });
+
+        surveyRepo.save(sur);
     }
 
     @Override
@@ -81,7 +103,17 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public List<SurveyDto> getAllSurveysByUser(String userName) {
-        return null;
+        SurveyMapper surveyMapper = new SurveyMapper();
+
+        List<Survey> surveyList = surveyRepo.findSurveysByCreatedBy(userName);
+
+        if(surveyList.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+
+        List<SurveyDto> dtoList = surveyMapper.getDto(surveyList);
+
+        return dtoList;
     }
 
     @Override
@@ -93,12 +125,14 @@ public class SurveyServiceImpl implements SurveyService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         });
 
-        return surveyMapper.getDto(sur);
+        SurveyDto dto = surveyMapper.getDto(sur);
+
+        return dto;
     }
 
     @Override
     public List<SurveyDto> getSurveysByLabel(String label) {
-        return null;
+        return Collections.emptyList();
     }
 
 

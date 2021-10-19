@@ -2,16 +2,12 @@ package com.demo.survey.dto.mapper;
 
 import com.demo.survey.dto.SurveyDto;
 import com.demo.survey.entity.Survey;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class SurveyMapper implements Mapper<Survey, SurveyDto>{
-
-    @Autowired
-    private AnswerMapper answerMapper;
 
     @Override
     public SurveyDto getDto(Survey entity) {
@@ -47,6 +43,7 @@ public class SurveyMapper implements Mapper<Survey, SurveyDto>{
         dto.setLabel(entity.getLabel());
 
         if(escalones > 0){
+            AnswerMapper answerMapper = new AnswerMapper();
             dto.setAnswers(answerMapper.getDto(entity.getAnswers(), escalones-1));
         }
 
