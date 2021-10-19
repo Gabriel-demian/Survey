@@ -1,6 +1,6 @@
 package com.demo.survey.security.controller;
 
-import com.demo.survey.entity.User;
+import com.demo.survey.entity.UserEntity;
 import com.demo.survey.repository.UserRepository;
 import com.demo.survey.security.JWTAuthorizationFilter;
 import com.demo.survey.security.dto.UserDto;
@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("login")
     public String login(@RequestBody UserDto userDto){
 
-        Optional<User> user = userRepository.findOneByUsername(userDto.getUser());
+        Optional<UserEntity> user = userRepository.findOneByUsername(userDto.getUser());
 
         if(!user.isPresent() || !passwordEncoder.matches(userDto.getPwd(), user.get().getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -51,7 +51,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void newUser(@RequestBody UserDto userDto){
 
-        User newUser = new User();
+        UserEntity newUser = new UserEntity();
 
         newUser.setUsername(userDto.getUser());
         newUser.setPassword(passwordEncoder.encode(userDto.getPwd()));

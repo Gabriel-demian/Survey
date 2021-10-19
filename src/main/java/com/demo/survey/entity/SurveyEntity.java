@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Survey {
+public class SurveyEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -21,7 +21,7 @@ public class Survey {
     private String surveyId;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<AnswerEntity> answers;
 
     private String createdBy;
     private String survey;

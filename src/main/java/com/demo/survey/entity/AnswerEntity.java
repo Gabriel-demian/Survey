@@ -1,6 +1,5 @@
 package com.demo.survey.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Answer {
+public class AnswerEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -21,12 +20,10 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name= "surveyId")
-    private Survey surveyId;
+    private SurveyEntity surveyId;
 
-    @NotNull
     private String answer;
 
-    @NotNull
     private Integer counter;
 
 }

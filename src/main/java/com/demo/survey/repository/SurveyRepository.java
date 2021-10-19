@@ -1,12 +1,14 @@
 package com.demo.survey.repository;
 
-import com.demo.survey.entity.Survey;
+import com.demo.survey.entity.SurveyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SurveyRepository extends JpaRepository<Survey, String> {
+public interface SurveyRepository extends JpaRepository<SurveyEntity, String> {
 
-    List<Survey> findSurveysByCreatedBy(String username);
+    List<SurveyEntity> findSurveysByCreatedBy(String username);
+
+    List<SurveyEntity> findSurveysByLabel(String label);
 
 }

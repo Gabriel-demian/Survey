@@ -1,14 +1,14 @@
 package com.demo.survey.repository;
 
-import com.demo.survey.entity.User;
+import com.demo.survey.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 
-    Optional<User> findOneByUsername(String username);
+    Optional<UserEntity> findOneByUsername(String username);
 
 }

@@ -1,21 +1,21 @@
 package com.demo.survey.dto.mapper;
 
 import com.demo.survey.dto.AnswerDto;
-import com.demo.survey.entity.Answer;
+import com.demo.survey.entity.AnswerEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AnswerMapper implements Mapper<Answer, AnswerDto>{
+public class AnswerMapper implements Mapper<AnswerEntity, AnswerDto>{
 
     @Override
-    public AnswerDto getDto(Answer entity) {
+    public AnswerDto getDto(AnswerEntity entity) {
         return getDto(entity, CANTIDAD_ESCALONES);
     }
 
     @Override
-    public Answer fillEntity(Answer entity, AnswerDto dto) {
+    public AnswerEntity fillEntity(AnswerEntity entity, AnswerDto dto) {
 
         entity.setAnswerId(dto.getAnswerId());
         entity.setAnswer(dto.getAnswer());
@@ -25,12 +25,12 @@ public class AnswerMapper implements Mapper<Answer, AnswerDto>{
     }
 
     @Override
-    public List<AnswerDto> getDto(Collection<Answer> entities) {
+    public List<AnswerDto> getDto(Collection<AnswerEntity> entities) {
         return getDto(entities, CANTIDAD_ESCALONES);
     }
 
     @Override
-    public AnswerDto getDto(Answer entity, Integer escalones) {
+    public AnswerDto getDto(AnswerEntity entity, Integer escalones) {
 
         AnswerDto dto = new AnswerDto();
 
@@ -42,11 +42,11 @@ public class AnswerMapper implements Mapper<Answer, AnswerDto>{
     }
 
     @Override
-    public List<AnswerDto> getDto(Collection<Answer> entities, Integer escalones) {
+    public List<AnswerDto> getDto(Collection<AnswerEntity> entities, Integer escalones) {
 
         List<AnswerDto> res = new ArrayList<>();
 
-        for(Answer answer : entities){
+        for(AnswerEntity answer : entities){
             res.add(getDto(answer, escalones));
         }
 

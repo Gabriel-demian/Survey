@@ -7,5 +7,5 @@ spring:
 
 spring.jpa:
   database: POSTGRESQL
-  hibernate.ddl-auto: update
+  hibernate.ddl-auto: create-drop
   show-sql: true

@@ -19,60 +19,38 @@ public class SurveyController {
     @PostMapping("/newSurvey")
     @ResponseStatus(HttpStatus.CREATED)
     public SurveyDto newSurvey(@RequestBody SurveyDto newSurvey){
-        log.info(newSurvey.toString());
         return surveyService.createNewSurvey(newSurvey);
     }
 
     @PostMapping ("/survey/{surveyId}/{answerId}")
     public String sendAnswer(@PathVariable("surveyId") String surveyId, @PathVariable("answerId") String answerId){
-
         surveyService.sendAnswer(surveyId, answerId);
-
         return "You sent the answer "+surveyId+" for the survey " + answerId;
     }
 
     @GetMapping("/surveyList")
     public List<SurveyDto> getAllSurveys(){
-
-        List<SurveyDto> list = surveyService.getAllSurveys();
-
-        return list;
+        return surveyService.getAllSurveys();
     }
 
-    @GetMapping("/survey/user/{userName}")
+    @GetMapping("/surveyList/user/{userName}")
     public List<SurveyDto> getSurveyByUser(@PathVariable String userName){
-
-        List<SurveyDto> list = surveyService.getAllSurveysByUser(userName);
-
-        return list;
+        return surveyService.getAllSurveysByUser(userName);
     }
 
     @GetMapping("/survey/{surveyId}")
     public SurveyDto getSurveyById(@PathVariable String surveyId){
-
-        SurveyDto survey = surveyService.getSurveyById(surveyId);
-
-        if(survey == null){
-
-        }
-
-        return survey;
+        return surveyService.getSurveyById(surveyId);
     }
 
     @GetMapping("/surveyList/label/{label}")
     public List<SurveyDto> getSurveysByLabel(@PathVariable("label") String label){
-
-        List<SurveyDto> list = surveyService.getSurveysByLabel(label);
-
-        return list;
+        return surveyService.getSurveysByLabel(label);
     }
 
     @GetMapping("/randomSurvey")
     public SurveyDto getRandomSurvey(){
-
-        SurveyDto survey = surveyService.getRandomSurvey();
-
-        return survey;
+        return surveyService.getRandomSurvey();
     }
 
 }
