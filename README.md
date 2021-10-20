@@ -12,8 +12,10 @@
 
 
 # Endpoints
-
-    POST-> /user
+### Postman Collection:
+https://www.getpostman.com/collections/a2c6d46e74b227b5bdf5
+    
+    	POST-> /user
 	POST-> /login
 	POST-> /newSurvey (necesita estar registrado para crear nuevas encuestas)
 	POST-> /survey/{surveyId}/{answerId}
