@@ -10,9 +10,26 @@
 
 # Endpoints
 
+    POST-> /user
+	POST-> /login
+	POST-> /newSurvey (necesita estar registrado para crear nuevas encuestas)
+	POST-> /survey/{surveyId}/{answerId}
+	GET -> /survey/{surveyId}
+	GET -> /surveyList
+	GET -> /surveyList/user/{userName}
+	GET -> /surveyList/label/{label}
+	GET -> /randomSurvey
+
+## 1_ create a new user
+![newUser](https://user-images.githubusercontent.com/57782295/138156277-4a3e41c9-4aa7-4eaf-9c2d-595603979fff.PNG)
+
+## 2_ login to get the token
+![login](https://user-images.githubusercontent.com/57782295/138156292-3d355cc5-e365-41a0-8535-7ec513938388.PNG)
 
 ## Create a new survey
-Request URL http://localhost:8080/newSurvey
+![newSurvey1](https://user-images.githubusercontent.com/57782295/138156299-a2867750-5e03-4a9a-8a52-dc27fdb88a88.PNG)
+
+![newSurvey2](https://user-images.githubusercontent.com/57782295/138156307-154879a8-b351-4b89-9e89-2a57b0b57023.PNG)
 ```
 {
     "createdBy": "Gabi",
