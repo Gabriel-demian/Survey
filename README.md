@@ -1,5 +1,8 @@
 # Survey
 
+### Specifications requested for the software. 
+[Evaluación Técnica.docx](https://github.com/Gabriel-demian/Survey/files/7383837/Evaluacion.Tecnica.docx)
+
 ## Service Architecture
 ![NubiEncuestas (1)](https://user-images.githubusercontent.com/57782295/138152930-d53dedd6-5e4e-46aa-961c-4ffaafd11fa7.jpeg)
 
